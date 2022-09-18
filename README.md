@@ -14,6 +14,14 @@ To upload a file, click on the icon for the extension and it will open up a page
 Every bookmark can contain a maximum of 9092 charaters before google refuses to sync them. Using base64 encoding, this means you can fit around 72kb into a single bookmark.
 When you upload a file, it gets encoded into base64, split into multiple bookmarks, and stored into folders corresponding with the file name.
 
+# Demo
+
+
+https://user-images.githubusercontent.com/58010778/190885315-206a6bbf-eab1-4d0d-a7f6-bb4a15c30914.mp4
+
+
+
+
 # Things you might be wondering
 
 "Why?"
