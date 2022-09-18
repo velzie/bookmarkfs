@@ -1,5 +1,6 @@
-## HistoryFS - the dumbest project i've ever made
-
+<div align="center">
+    <h1>HistoryFS - the dumbest project i've ever made</h1>
+</div>
 Exploits the google chrome bookmark sync service to store files for free
 
 # Installation and usage
