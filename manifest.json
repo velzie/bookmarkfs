@@ -1,0 +1,16 @@
+{
+    "name": "BookmarkFS",
+    "description": "extremely cursed",
+    "version": "1.0",
+    "manifest_version": 3,
+    "background": {
+        "service_worker": "background.js"
+    },
+    "action": {
+        "title": "launch fs"
+    },
+    "permissions": [
+        "bookmarks",
+        "tabs"
+    ]
+}
