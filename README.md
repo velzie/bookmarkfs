@@ -4,15 +4,16 @@
 Exploits the google chrome bookmark sync service to store files for free
 
 # Installation and usage
-1. Download the code as a zip and unzip it
-2. Go to chrome://extensions and turn on developer mode
-3. Click "Load Unpacked" and select the unzipped folder
+1. Go to releases and download bookmarkfs.crx
+2. Go to chrome://extensions and enable developer mode
+3. Drag and drop the .crx file into the extensions page
+
 
 To upload a file, click on the icon for the extension and it will open up a page where you can upload, download, and delete files
 
 # How does it work?
 Every bookmark can contain a maximum of 9092 charaters before google refuses to sync them. Using base64 encoding, this means you can fit around 72kb into a single bookmark.
-When you upload a file, it gets encoded into base64, split into multiple bookmarks, and stored into folders corresponding with the file name.
+When you upload a file, it gets compressed using gzip, encoded into base64, split into multiple bookmarks, and stored into folders corresponding with the file name.
 
 # Demo
 
@@ -34,6 +35,11 @@ https://user-images.githubusercontent.com/58010778/190885315-206a6bbf-eab1-4d0d-
     Using bookmarks works, and since the url section can be used as well, you can get over well double the storage density. However, chrome does not seem to sync bookmarks that long nested so deeply.
     Fortunately, it has no problems with me using folders and storing as much of them as I want 
 
+
+# Building from source
+1. clone the github repo
+2. `npm run build`
+3. go to chrome://extensions, hit load unpacked and select the folder
 
 # Disclaimer
 DO NOT hover over the bookmarks folder when large files are uploaded. It will freeze chrome, or if you're using a chromebook it crashes the entire chromebook. At one point it even made Xorg crash.
