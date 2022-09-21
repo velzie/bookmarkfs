@@ -1,0 +1,32 @@
+{
+  "name": "bookmarkfs",
+  "version": "1.0.0",
+  "description": "Exploits the google chrome bookmark sync service to store files for free",
+  "scripts": {
+    "build": "webpack --config webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CoolElectronics/bookmarkfs.git"
+  },
+  "keywords": [
+    "bookmark",
+    "filesystem"
+  ],
+  "author": "CoolElectronics",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/CoolElectronics/bookmarkfs/issues"
+  },
+  "homepage": "https://github.com/CoolElectronics/bookmarkfs#readme",
+  "dependencies": {
+    "base65536": "^4.0.2",
+    "fflate": "^0.7.3",
+    "lzw": "^0.0.3",
+    "node-gzip": "^1.1.2",
+    "webpack": "^5.74.0"
+  },
+  "devDependencies": {
+    "webpack-cli": "^4.10.0"
+  }
+}

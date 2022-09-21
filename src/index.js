@@ -1,31 +1,50 @@
+import { encode, decode } from './encoder';
+import { base64ToBytes, bytesToBase64 } from './encodeArray';
 
+import * as fflate from "fflate";
+window.t = { encode, decode, base64ToBytes, bytesToBase64, fflate };
+window.encode = encode;
+window.decode = decode;
+const maxBookmarkSize = 9092;
 window.onload = () => {
     const image_input = document.querySelector("#image-input");
     image_input.addEventListener("change", function () {
         const reader = new FileReader();
         reader.addEventListener("load", () => {
-            const uploaded_image = reader.result;
+            const fileBase64 = reader.result;
+
+            console.log("beginning compression");
+
+            let uncompressedsize = new TextEncoder().encode(fileBase64).length;
+
+            const [meta, data] = fileBase64.split(",");
+            let plainBytes = new TextEncoder().encode(meta + "," + atob(data));
+            let compressed = "c" + bytesToBase64(fflate.gzipSync(plainBytes));
+
+            let compressedsize = new TextEncoder().encode(compressed).length;
+
+            let ratio = compressedsize / uncompressedsize;
+            console.log(`compression factor of ${ratio} (from ${uncompressedsize} to ${compressedsize})`);
+            if (ratio > 1) {
+                compressed = "r" + meta + "," + data;
+            }
+
+
             let fullPath = image_input.value;
             var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
             var filename = fullPath.substring(startIndex);
             if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
                 filename = filename.substring(1);
             }
-            newFile(filename, uploaded_image);
+
+            newFile(filename, compressed);
         });
         reader.readAsDataURL(this.files[0]);
     });
 }
 
 
-function diff(inp, interval) {
-    let step = 0;
-    while (step < inp.length) {
-        if (read.substring(step, step + interval) != fillertext.substring(step, step + interval)) return step;
-        step += interval;
-    }
-    return "?";
-}
+
 
 async function newFile(name, data) {
     let fsh = await fs();
@@ -56,7 +75,7 @@ function File(handle) {
             this.handle.children.forEach(c => {
                 data += c.title
             });
-            return data.replaceAll("about:", "");
+            return data;
         },
         write: async function (data) {
             let buffers = [];
@@ -119,10 +138,29 @@ async function loadFiles() {
         button.innerText = "delete";
         button.addEventListener("click", () => file.delete());
 
-        let link = document.createElement("a");
-        link.download = file.handle.title;
-        link.href = await file.read();
-        link.innerHTML = "download";
+
+        let link = document.createElement("button");
+        link.innerText = "download";
+        link.addEventListener("click", async () => {
+            let raw = await file.read();
+            let c = raw[0];
+            raw = raw.substring(1);
+            let downloadURI;
+            if (c == "c") {
+                let [meta, ...filePlain] = new TextDecoder().decode(fflate.gunzipSync(base64ToBytes(raw))).split(",");
+                filePlain = filePlain.join(",");
+                downloadURI = meta + "," + btoa(filePlain);
+            } else {
+                downloadURI = raw;
+            }
+
+            let download = document.createElement("a");
+            download.download = file.handle.title;
+            download.href = downloadURI;
+            document.body.appendChild(download);
+            download.click();
+            download.remove();
+        });
 
         buttoncontainer.appendChild(button);
 
