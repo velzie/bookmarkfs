@@ -21,6 +21,7 @@
   "homepage": "https://github.com/CoolElectronics/bookmarkfs#readme",
   "dependencies": {
     "base65536": "^4.0.2",
+    "body-parser": "^1.20.0",
     "fflate": "^0.7.3",
     "lzw": "^0.0.3",
     "node-gzip": "^1.1.2",

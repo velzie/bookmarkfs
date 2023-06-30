@@ -1,14 +1,9 @@
-import { encode, decode } from './encoder';
 import { base64ToBytes, bytesToBase64 } from './encodeArray';
 
 import * as fflate from "fflate";
-window.t = { encode, decode, base64ToBytes, bytesToBase64, fflate };
-window.encode = encode;
-window.decode = decode;
-const maxBookmarkSize = 9092;
 window.onload = () => {
     const image_input = document.querySelector("#image-input");
-    image_input.addEventListener("change", function () {
+    image_input.addEventListener("change", function() {
         const reader = new FileReader();
         reader.addEventListener("load", () => {
             const fileBase64 = reader.result;
@@ -70,14 +65,14 @@ function File(handle) {
     handle.children = handle.children || [];
     return {
         handle: handle,
-        read: async function () {
+        read: async function() {
             let data = "";
             this.handle.children.forEach(c => {
                 data += c.title
             });
             return data;
         },
-        write: async function (data) {
+        write: async function(data) {
             let buffers = [];
             let ind = 0;
             while (ind < data.length) {
@@ -101,7 +96,7 @@ function File(handle) {
             console.log("finished writing");
             loadFiles();
         },
-        delete: async function () {
+        delete: async function() {
             for (let node of this.handle.children) {
                 chrome.bookmarks.remove(node.id);
             }
